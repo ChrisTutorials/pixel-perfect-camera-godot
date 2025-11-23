@@ -218,7 +218,9 @@ func test_zero_position() -> void:
 	camera._update_pixel_snap_offset()
 	
 	# Should handle zero position gracefully
-	assert_vector2(camera.global_position).is_equal(Vector2.ZERO)
+	var zero_pos = camera.global_position
+	assert_float(zero_pos.x).is_equal(0.0)
+	assert_float(zero_pos.y).is_equal(0.0)
 
 ## Test with negative positions
 func test_negative_positions() -> void:

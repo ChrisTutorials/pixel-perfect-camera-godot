@@ -4,7 +4,7 @@ extends SceneTree
 
 func _ready() -> void:
 	print("🎯 Running Pixel Perfect Camera Tests...")
-	print("=" * 50)
+	print("==================================================")
 	
 	# Run core functionality tests
 	run_test("Pixel Snapping", test_pixel_snapping)
@@ -25,17 +25,14 @@ func _ready() -> void:
 	run_test("Zero Position", test_zero_position)
 	run_test("Negative Positions", test_negative_positions)
 	
-	print("=" * 50)
+	print("==================================================")
 	print("✅ All Pixel Perfect Camera Tests Completed!")
 	quit()
 
 func run_test(test_name: String, test_func: Callable) -> void:
 	print("\n🧪 %s:" % test_name)
-	try:
-		test_func.call()
-		print("   ✅ PASSED")
-	except:
-		print("   ❌ FAILED: %s" % str(get_stack()))
+	test_func.call()
+	print("   ✅ PASSED")
 
 #region TEST IMPLEMENTATIONS
 
@@ -54,30 +51,30 @@ func test_pixel_snapping() -> void:
 	var x_fraction = fmod(cam_pos.x, 1.0)
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
-	assert(x_fraction <= 0.001, "X position not pixel-aligned: %s" % x_fraction)
-	assert(y_fraction <= 0.001, "Y position not pixel-aligned: %s" % y_fraction)
+	_assert_check(x_fraction <= 0.001, "X position not pixel-aligned: %s" % x_fraction)
+	_assert_check(y_fraction <= 0.001, "Y position not pixel-aligned: %s" % y_fraction)
 
 func test_pixel_perfect_toggle() -> void:
 	var camera = Camera2D.new()
 	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower.gd")
 	camera.pixel_perfect = true
 	
-	assert(camera.pixel_perfect == true, "Should be enabled by default")
+	_assert_check(camera.pixel_perfect == true, "Should be enabled by default")
 	
 	camera.pixel_perfect = false
-	assert(camera.pixel_perfect == false, "Should toggle off")
+	_assert_check(camera.pixel_perfect == false, "Should toggle off")
 	
 	camera.pixel_perfect = true
-	assert(camera.pixel_perfect == true, "Should toggle on")
+	_assert_check(camera.pixel_perfect == true, "Should toggle on")
 
 func test_camera_configuration() -> void:
 	var camera = Camera2D.new()
 	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower.gd")
 	camera.pixel_perfect = true
 	
-	assert(camera.process_callback == Camera2D.CAMERA2D_PROCESS_IDLE, "Should use IDLE process")
-	assert(camera.position_smoothing_enabled == false, "Should disable smoothing")
-	assert(camera.enabled == true, "Should be enabled")
+	_assert_check(camera.process_callback == Camera2D.CAMERA2D_PROCESS_IDLE, "Should use IDLE process")
+	_assert_check(camera.position_smoothing_enabled == false, "Should disable smoothing")
+	_assert_check(camera.enabled == true, "Should be enabled")
 
 func test_jitter_reduction() -> void:
 	var camera = Camera2D.new()
@@ -99,7 +96,7 @@ func test_jitter_reduction() -> void:
 			jitter_sum += current_pos.distance_to(last_pos)
 		last_pos = current_pos
 	
-	assert(jitter_sum <= 1.0, "Jitter too high: %s" % jitter_sum)
+	_assert_check(jitter_sum <= 1.0, "Jitter too high: %s" % jitter_sum)
 
 func test_zoom_compatibility() -> void:
 	var camera = Camera2D.new()
@@ -120,8 +117,8 @@ func test_zoom_compatibility() -> void:
 		var x_fraction = fmod(cam_pos.x, 1.0)
 		var y_fraction = fmod(cam_pos.y, 1.0)
 		
-		assert(x_fraction <= 0.001, "X not aligned at zoom %s: %s" % [zoom, x_fraction])
-		assert(y_fraction <= 0.001, "Y not aligned at zoom %s: %s" % [zoom, y_fraction])
+		_assert_check(x_fraction <= 0.001, "X not aligned at zoom %s: %s" % [zoom, x_fraction])
+		_assert_check(y_fraction <= 0.001, "Y not aligned at zoom %s: %s" % [zoom, y_fraction])
 
 func test_diagnostics_overlay() -> void:
 	var camera = Camera2D.new()
@@ -130,13 +127,13 @@ func test_diagnostics_overlay() -> void:
 	var diagnostics = preload("res://addons/pixel_perfect_camera/camera_diagnostics.gd").new()
 	diagnostics.camera = camera
 	
-	assert(diagnostics.camera == camera, "Camera not assigned to diagnostics")
-	assert(diagnostics.frame_count == 0, "Frame count should start at 0")
+	_assert_check(diagnostics.camera == camera, "Camera not assigned to diagnostics")
+	_assert_check(diagnostics.frame_count == 0, "Frame count should start at 0")
 	
 	for i in range(5):
 		diagnostics._physics_process(0.016)
 	
-	assert(diagnostics.frame_count == 5, "Frame count should increment")
+	_assert_check(diagnostics.frame_count == 5, "Frame count should increment")
 
 func test_value_comparison() -> void:
 	var pixel_camera = Camera2D.new()
@@ -156,18 +153,18 @@ func test_value_comparison() -> void:
 	var default_pos = default_camera.global_position
 	
 	# Should be different
-	assert(pixel_pos != default_pos, "Positions should differ")
+	_assert_check(pixel_pos != default_pos, "Positions should differ")
 	
 	# Pixel perfect should be aligned
 	var pixel_x_fraction = fmod(pixel_pos.x, 1.0)
 	var pixel_y_fraction = fmod(pixel_pos.y, 1.0)
-	assert(pixel_x_fraction <= 0.001, "Pixel perfect X not aligned")
-	assert(pixel_y_fraction <= 0.001, "Pixel perfect Y not aligned")
+	_assert_check(pixel_x_fraction <= 0.001, "Pixel perfect X not aligned")
+	_assert_check(pixel_y_fraction <= 0.001, "Pixel perfect Y not aligned")
 	
 	# Default should have fractions
 	var default_x_fraction = fmod(default_pos.x, 1.0)
 	var default_y_fraction = fmod(default_pos.y, 1.0)
-	assert(abs(default_x_fraction) + abs(default_y_fraction) > 0.01, "Default should have fractions")
+	_assert_check(abs(default_x_fraction) + abs(default_y_fraction) > 0.01, "Default should have fractions")
 
 func test_zero_position() -> void:
 	var camera = Camera2D.new()
@@ -180,7 +177,7 @@ func test_zero_position() -> void:
 	
 	camera._update_pixel_snap_offset()
 	
-	assert(camera.global_position == Vector2.ZERO, "Should handle zero position")
+	_assert_check(camera.global_position == Vector2.ZERO, "Should handle zero position")
 
 func test_negative_positions() -> void:
 	var camera = Camera2D.new()
@@ -197,13 +194,12 @@ func test_negative_positions() -> void:
 	var x_fraction = fmod(cam_pos.x, 1.0)
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
-	assert(x_fraction <= 0.001, "Negative X not aligned: %s" % x_fraction)
-	assert(y_fraction <= 0.001, "Negative Y not aligned: %s" % y_fraction)
+	_assert_check(x_fraction <= 0.001, "Negative X not aligned: %s" % x_fraction)
+	_assert_check(y_fraction <= 0.001, "Negative Y not aligned: %s" % y_fraction)
 
 #endregion
 
-func assert(condition: bool, message: String) -> void:
+func _assert_check(condition: bool, message: String) -> void:
 	if not condition:
 		push_error("ASSERTION FAILED: " + message)
-		# Create a simple error to trigger the try/catch
-		var x = 1 / 0
+		assert(false, "ASSERTION FAILED: " + message)

@@ -8,7 +8,7 @@ extends EditorPlugin
 ## Usage:
 ## 1. Enable this plugin in Project Settings > Plugins
 ## 2. Add a Camera2D node as a child of your player/character
-## 3. Attach the camera_follower.gd script to the Camera2D
+## 3. Attach the pixel_perfect_camera_2d.gd script to the Camera2D
 ## 4. Enable the pixel_perfect property in the inspector
 ##
 ## The camera will automatically follow its parent and snap to whole pixels,
@@ -17,7 +17,7 @@ extends EditorPlugin
 
 func _enter_tree() -> void:
 	# Plugin initialization
-	# The camera_follower.gd script can be attached manually to Camera2D nodes
+	# The pixel_perfect_camera_2d.gd script can be attached manually to Camera2D nodes
 	pass
 
 
