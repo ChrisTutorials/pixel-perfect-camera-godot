@@ -2,12 +2,20 @@
 ## Tests the stable vs precise pixel perfect algorithms
 extends GdUnitTestSuite
 
-## Test that stable algorithm reduces jitter during movement
-func test_stable_algorithm_reduces_jitter() -> void:
+## Test pixel perfect camera algorithm jitter behavior
+func test_algorithm_jitter_behavior(
+	algorithm: String,
+	max_jitter_threshold: float,
+	test_name: String,
+	_test_parameters: Array[Variant] = [
+		["stable", 2.0, "stable_algorithm_reduces_jitter"],
+		["precise", 100.0, "precise_algorithm_jitter"] # Higher threshold for precise
+	]
+) -> void:
 	var camera = Camera2D.new()
 	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower_stable.gd")
 	camera.pixel_perfect = true
-	camera.algorithm = "stable"
+	camera.algorithm = algorithm
 	add_child(camera)
 	
 	var parent = Node2D.new()
@@ -31,39 +39,11 @@ func test_stable_algorithm_reduces_jitter() -> void:
 			jitter_sum += current_pos.distance_to(last_pos)
 		last_pos = current_pos
 	
-	# Stable algorithm should have minimal jitter
-	assert_float(jitter_sum).is_less_or_equal(2.0)
-
-## Test that precise algorithm can cause more jitter
-func test_precise_algorithm_jitter() -> void:
-	var camera = Camera2D.new()
-	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower_stable.gd")
-	camera.pixel_perfect = true
-	camera.algorithm = "precise"
-	add_child(camera)
+	# Algorithm should stay within jitter threshold
+	assert_float(jitter_sum).append_failure_message("%s algorithm jitter (%.3f) should be <= %.1f for %s" % [algorithm.capitalize(), jitter_sum, max_jitter_threshold, test_name]).is_less_or_equal(max_jitter_threshold)
 	
-	var parent = Node2D.new()
-	parent.add_child(camera)
-	
-	# Track jitter during same movement pattern
-	var jitter_sum = 0.0
-	var last_pos = Vector2.ZERO
-	
-	for i in range(20):
-		var movement_time = i * 0.1
-		parent.global_position = Vector2(
-			640 + sin(movement_time) * 50.7,
-			360 + cos(movement_time) * 30.3
-		)
-		camera._update_pixel_snap_offset()
-		
-		var current_pos = camera.global_position
-		if last_pos != Vector2.ZERO:
-			jitter_sum += current_pos.distance_to(last_pos)
-		last_pos = current_pos
-	
-	# Precise algorithm might have more jitter (this test documents the behavior)
-	print("Precise algorithm jitter: ", jitter_sum)
+	# Log actual jitter for comparison
+	print("%s algorithm jitter: %.3f" % [algorithm.capitalize(), jitter_sum])
 
 ## Test algorithm comparison
 func test_algorithm_comparison() -> void:

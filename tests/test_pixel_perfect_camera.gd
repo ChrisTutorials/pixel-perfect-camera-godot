@@ -88,7 +88,16 @@ func test_jitter_reduction() -> void:
 	assert_float(jitter_sum).is_less_or_equal(1.0)
 
 ## Test performance with different zoom levels
-func test_zoom_compatibility() -> void:
+func test_zoom_compatibility(
+	zoom_level: float,
+	test_name: String,
+	_test_parameters: Array[Variant] = [
+		[1.0, "zoom_1x"],
+		[2.0, "zoom_2x"],
+		[3.0, "zoom_3x"],
+		[4.0, "zoom_4x"]
+	]
+) -> void:
 	var camera = Camera2D.new()
 	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower.gd")
 	camera.pixel_perfect = true
@@ -98,20 +107,17 @@ func test_zoom_compatibility() -> void:
 	parent.global_position = Vector2(648.753, 424.159)
 	parent.add_child(camera)
 	
-	# Test different zoom levels
-	var zoom_levels = [1.0, 2.0, 3.0, 4.0]
+	# Test specific zoom level
+	camera.zoom = Vector2(zoom_level, zoom_level)
+	camera._update_pixel_snap_offset()
 	
-	for zoom in zoom_levels:
-		camera.zoom = Vector2(zoom, zoom)
-		camera._update_pixel_snap_offset()
-		
-		var cam_pos = camera.global_position
-		var x_fraction = fmod(cam_pos.x, 1.0)
-		var y_fraction = fmod(cam_pos.y, 1.0)
-		
-		# Should maintain pixel alignment at all zoom levels
-		assert_float(x_fraction).is_less_or_equal(0.001)
-		assert_float(y_fraction).is_less_or_equal(0.001)
+	var cam_pos = camera.global_position
+	var x_fraction = fmod(cam_pos.x, 1.0)
+	var y_fraction = fmod(cam_pos.y, 1.0)
+	
+	# Should maintain pixel alignment at all zoom levels
+	assert_float(x_fraction).append_failure_message("Camera X should be pixel-aligned at zoom %.1f for %s (fraction: %s)" % [zoom_level, test_name, x_fraction]).is_less_or_equal(0.001)
+	assert_float(y_fraction).append_failure_message("Camera Y should be pixel-aligned at zoom %.1f for %s (fraction: %s)" % [zoom_level, test_name, y_fraction]).is_less_or_equal(0.001)
 
 #endregion
 
