@@ -101,6 +101,6 @@ func test_stability() -> void:
 		var current = history[i]
 		# Must be equal or +1 step. Never -1 or >1.
 		var diff = current.x - previous.x
-		assert_float(diff).is_greater_or_equal(0.0)
-		assert_float(diff).is_less_or_equal(1.0)
+		assert_float(diff).is_greater_equal(0.0)
+		assert_float(diff).is_less_equal(1.0)
 		previous = current

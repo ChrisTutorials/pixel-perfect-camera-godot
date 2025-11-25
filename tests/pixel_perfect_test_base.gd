@@ -135,14 +135,14 @@ func assert_pixel_aligned_at_position(camera: Camera2D, expected_position: Vecto
 	var x_diff = abs(actual_position.x - expected_position.x)
 	var y_diff = abs(actual_position.y - expected_position.y)
 	
-	assert_float(x_diff).is_less_or_equal(tolerance) \
+	assert_float(x_diff).is_less_equal(tolerance) \
 		.append_failure_message(
 			"Camera X position %.3f differs from expected %.3f by %.3f" % [
 				actual_position.x, expected_position.x, x_diff
 			]
 		)
 	
-	assert_float(y_diff).is_less_or_equal(tolerance) \
+	assert_float(y_diff).is_less_equal(tolerance) \
 		.append_failure_message(
 			"Camera Y position %.3f differs from expected %.3f by %.3f" % [
 				actual_position.y, expected_position.y, y_diff
@@ -151,7 +151,7 @@ func assert_pixel_aligned_at_position(camera: Camera2D, expected_position: Vecto
 
 ## Assert jitter within threshold
 func assert_jitter_within_threshold(jitter_sum: float, threshold: float, algorithm_name: String) -> void:
-	assert_float(jitter_sum).is_less_or_equal(threshold) \
+	assert_float(jitter_sum).is_less_equal(threshold) \
 		.append_failure_message(
 			"%s algorithm jitter %.3f exceeds threshold %.3f" % [
 				algorithm_name.capitalize(),

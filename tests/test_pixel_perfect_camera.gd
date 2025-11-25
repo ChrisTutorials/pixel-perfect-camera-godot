@@ -24,8 +24,8 @@ func test_pixel_snapping() -> void:
 	var x_fraction = fmod(cam_pos.x, 1.0)
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
-	assert_float(x_fraction).is_less_or_equal(0.001)
-	assert_float(y_fraction).is_less_or_equal(0.001)
+	assert_float(x_fraction).is_less_equal(0.001)
+	assert_float(y_fraction).is_less_equal(0.001)
 
 ## Test that pixel perfect can be toggled
 func test_pixel_perfect_toggle() -> void:
@@ -85,7 +85,7 @@ func test_jitter_reduction() -> void:
 		last_pos = current_pos
 	
 	# Pixel perfect camera should have minimal jitter
-	assert_float(jitter_sum).is_less_or_equal(1.0)
+	assert_float(jitter_sum).is_less_equal(1.0)
 
 ## Test performance with different zoom levels
 func test_zoom_compatibility(
@@ -116,8 +116,8 @@ func test_zoom_compatibility(
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
 	# Should maintain pixel alignment at all zoom levels
-	assert_float(x_fraction).append_failure_message("Camera X should be pixel-aligned at zoom %.1f for %s (fraction: %s)" % [zoom_level, test_name, x_fraction]).is_less_or_equal(0.001)
-	assert_float(y_fraction).append_failure_message("Camera Y should be pixel-aligned at zoom %.1f for %s (fraction: %s)" % [zoom_level, test_name, y_fraction]).is_less_or_equal(0.001)
+	assert_float(x_fraction).append_failure_message("Camera X should be pixel-aligned at zoom %.1f for %s (fraction: %s)" % [zoom_level, test_name, x_fraction]).is_less_equal(0.001)
+	assert_float(y_fraction).append_failure_message("Camera Y should be pixel-aligned at zoom %.1f for %s (fraction: %s)" % [zoom_level, test_name, y_fraction]).is_less_equal(0.001)
 
 #endregion
 
@@ -154,7 +154,7 @@ func test_demo_scene_integration() -> void:
 	
 	# Verify pixel perfect camera is loaded
 	assert_object(camera.get_script()).is_not_null()
-	assert_bool(camera.get("pixel_perfect")).is_true()
+	assert_bool(camera.pixel_perfect).is_true()
 	
 	# Test pixel alignment
 	var player = demo_scene.get_node("World/PlayerBuilder")
@@ -166,8 +166,8 @@ func test_demo_scene_integration() -> void:
 	var x_fraction = fmod(cam_pos.x, 1.0)
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
-	assert_float(x_fraction).is_less_or_equal(0.001)
-	assert_float(y_fraction).is_less_or_equal(0.001)
+	assert_float(x_fraction).is_less_equal(0.001)
+	assert_float(y_fraction).is_less_equal(0.001)
 
 #endregion
 
@@ -198,8 +198,8 @@ func test_value_comparison() -> void:
 	# Pixel perfect should be aligned to whole pixels
 	var pixel_x_fraction = fmod(pixel_pos.x, 1.0)
 	var pixel_y_fraction = fmod(pixel_pos.y, 1.0)
-	assert_float(pixel_x_fraction).is_less_or_equal(0.001)
-	assert_float(pixel_y_fraction).is_less_or_equal(0.001)
+	assert_float(pixel_x_fraction).is_less_equal(0.001)
+	assert_float(pixel_y_fraction).is_less_equal(0.001)
 	
 	# Default should have fractional components
 	var default_x_fraction = fmod(default_pos.x, 1.0)
@@ -246,7 +246,7 @@ func test_negative_positions() -> void:
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
 	# Should handle negative positions correctly
-	assert_float(x_fraction).is_less_or_equal(0.001)
-	assert_float(y_fraction).is_less_or_equal(0.001)
+	assert_float(x_fraction).is_less_equal(0.001)
+	assert_float(y_fraction).is_less_equal(0.001)
 
 #endregion

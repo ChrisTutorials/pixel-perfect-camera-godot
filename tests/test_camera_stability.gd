@@ -40,7 +40,7 @@ func test_algorithm_jitter_behavior(
 		last_pos = current_pos
 	
 	# Algorithm should stay within jitter threshold
-	assert_float(jitter_sum).append_failure_message("%s algorithm jitter (%.3f) should be <= %.1f for %s" % [algorithm.capitalize(), jitter_sum, max_jitter_threshold, test_name]).is_less_or_equal(max_jitter_threshold)
+	assert_float(jitter_sum).append_failure_message("%s algorithm jitter (%.3f) should be <= %.1f for %s" % [algorithm.capitalize(), jitter_sum, max_jitter_threshold, test_name]).is_less_equal(max_jitter_threshold)
 	
 	# Log actual jitter for comparison
 	print("%s algorithm jitter: %.3f" % [algorithm.capitalize(), jitter_sum])
@@ -72,13 +72,13 @@ func test_algorithm_comparison() -> void:
 	# Both should be pixel-aligned
 	var stable_x_frac = fmod(stable_pos.x, 1.0)
 	var stable_y_frac = fmod(stable_pos.y, 1.0)
-	assert_float(stable_x_frac).is_less_or_equal(0.001)
-	assert_float(stable_y_frac).is_less_or_equal(0.001)
+	assert_float(stable_x_frac).is_less_equal(0.001)
+	assert_float(stable_y_frac).is_less_equal(0.001)
 	
 	var precise_x_frac = fmod(precise_pos.x, 1.0)
 	var precise_y_frac = fmod(precise_pos.y, 1.0)
-	assert_float(precise_x_frac).is_less_or_equal(0.001)
-	assert_float(precise_y_frac).is_less_or_equal(0.001)
+	assert_float(precise_x_frac).is_less_equal(0.001)
+	assert_float(precise_y_frac).is_less_equal(0.001)
 	
 	# But they might target different pixel positions
 	print("Stable target: ", stable_pos)
@@ -105,5 +105,5 @@ func test_hybrid_algorithm() -> void:
 	var y_fraction = fmod(cam_pos.y, 1.0)
 	
 	# Should still be pixel-aligned
-	assert_float(x_fraction).is_less_or_equal(0.001)
-	assert_float(y_fraction).is_less_or_equal(0.001)
+	assert_float(x_fraction).is_less_equal(0.001)
+	assert_float(y_fraction).is_less_equal(0.001)
