@@ -55,7 +55,7 @@ func _update_pixel_snap_offset() -> void:
 		"hybrid":
 			# Hybrid approach: use stable for movement, precise for static
 			# This gives the best of both algorithms
-			var velocity = _get_parent_velocity()
+			var velocity: Vector2 = _get_parent_velocity()
 			if velocity.length() > 1.0:
 				# Moving: use stable algorithm for smooth following
 				var rounded_parent_pos: Vector2 = parent_pos.round()

@@ -72,7 +72,7 @@ static func get_alignment_error(position: Vector2) -> Vector2:
 
 ## Format alignment error for assertion messages
 static func format_alignment_error(position: Vector2) -> String:
-	var error = get_alignment_error(position)
+	var error: Vector2 = get_alignment_error(position)
 	return "Position (%.3f, %.3f) has alignment error (%.3f, %.3f)" % [
 		position.x, position.y, error.x, error.y
 	]

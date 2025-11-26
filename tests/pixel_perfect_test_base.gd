@@ -63,7 +63,7 @@ func create_camera_with_parent(camera_script: Script = PixelPerfectTestConstants
 
 ## Create camera at specific position
 func create_camera_at_position(position: Vector2, camera_script: Script = PixelPerfectTestConstants.CameraFollower) -> Camera2D:
-	var setup = create_camera_with_parent(camera_script)
+	var setup: CameraSetup = create_camera_with_parent(camera_script)
 	setup.set_position(position)
 	setup.update_camera()
 	
@@ -99,10 +99,10 @@ func create_precise_camera() -> Camera2D:
 
 ## Create camera with diagnostics
 func create_camera_with_diagnostics(position: Vector2 = Vector2.ZERO) -> CameraSetup:
-	var setup = create_camera_with_parent()
+	var setup: CameraSetup = create_camera_with_parent()
 	setup.set_position(position)
 	
-	var diagnostics = PixelPerfectTestConstants.create_diagnostics(setup.camera)
+	var diagnostics: CanvasLayer = PixelPerfectTestConstants.create_diagnostics(setup.camera)
 	add_child(diagnostics)
 	auto_free(diagnostics)
 	
@@ -117,7 +117,7 @@ func create_camera_with_diagnostics(position: Vector2 = Vector2.ZERO) -> CameraS
 ## Assert pixel alignment with descriptive message
 func assert_pixel_aligned(camera: Camera2D, context: String = "camera") -> void:
 	var position = camera.global_position
-	var is_aligned = PixelPerfectTestConstants.is_pixel_aligned(position)
+	var is_aligned: bool = PixelPerfectTestConstants.is_pixel_aligned(position)
 	
 	assert_bool(is_aligned) \
 		.append_failure_message(
@@ -181,12 +181,12 @@ func assert_camera_configuration(camera: Camera2D, pixel_perfect: bool = true) -
 ## Test pixel alignment across multiple positions
 func test_pixel_alignment_positions(camera_script: Script = PixelPerfectTestConstants.CameraFollower) -> void:
 	for test_pos in PixelPerfectTestConstants.TEST_POSITIONS:
-		var camera = create_camera_at_position(test_pos, camera_script)
+		var camera: Camera2D = create_camera_at_position(test_pos, camera_script)
 		assert_pixel_aligned(camera, "camera at position %s" % str(test_pos))
 
 ## Test zoom compatibility
 func test_zoom_compatibility(camera_script: Script = PixelPerfectTestConstants.CameraFollower) -> void:
-	var setup = create_camera_with_parent(camera_script)
+	var setup: CameraSetup = create_camera_with_parent(camera_script)
 	setup.set_position(Vector2(648.753, 424.159))
 	
 	for zoom in PixelPerfectTestConstants.ZOOM_LEVELS:
@@ -207,7 +207,7 @@ func test_algorithm_jitter(algorithm: String, expected_threshold: float) -> void
 	auto_free(parent)
 	parent.add_child(camera)
 	
-	var jitter_sum = PixelPerfectTestConstants.calculate_jitter(camera, parent)
+	var jitter_sum: float = PixelPerfectTestConstants.calculate_jitter(camera, parent)
 	assert_jitter_within_threshold(jitter_sum, expected_threshold, algorithm)
 
 #endregion
@@ -245,7 +245,7 @@ func test_demo_scene_integration(demo_scene: PackedScene, expected_camera_path: 
 
 ## Test zero position handling
 func test_zero_position(camera_script: Script = PixelPerfectTestConstants.CameraFollower) -> void:
-	var camera = create_camera_at_position(Vector2.ZERO, camera_script)
+	var camera: Camera2D = create_camera_at_position(Vector2.ZERO, camera_script)
 	
 	var position = camera.global_position
 	assert_float(position.x).is_equal(0.0) \
@@ -257,7 +257,7 @@ func test_zero_position(camera_script: Script = PixelPerfectTestConstants.Camera
 ## Test negative position handling
 func test_negative_positions(camera_script: Script = PixelPerfectTestConstants.CameraFollower) -> void:
 	var test_pos = Vector2(-100.753, -200.159)
-	var camera = create_camera_at_position(test_pos, camera_script)
+	var camera: Camera2D = create_camera_at_position(test_pos, camera_script)
 	assert_pixel_aligned(camera, "camera at negative position %s" % str(test_pos))
 
 #endregion
