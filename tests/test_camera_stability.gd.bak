@@ -13,7 +13,7 @@ func test_algorithm_jitter_behavior(
 	]
 ) -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://js27qgfeh3j6v")
+	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower_stable.gd")
 	camera.pixel_perfect = true
 	camera.algorithm = algorithm
 	add_child(camera)
@@ -52,7 +52,7 @@ func test_algorithm_comparison() -> void:
 	
 	# Test stable algorithm
 	var stable_camera = Camera2D.new()
-	stable_camera.script = preload("uid://js27qgfeh3j6v")
+	stable_camera.script = preload("res://addons/pixel_perfect_camera/camera_follower_stable.gd")
 	stable_camera.pixel_perfect = true
 	stable_camera.algorithm = "stable"
 	parent.add_child(stable_camera)
@@ -60,7 +60,7 @@ func test_algorithm_comparison() -> void:
 	
 	# Test precise algorithm
 	var precise_camera = Camera2D.new()
-	precise_camera.script = preload("uid://js27qgfeh3j6v")
+	precise_camera.script = preload("res://addons/pixel_perfect_camera/camera_follower_stable.gd")
 	precise_camera.pixel_perfect = true
 	precise_camera.algorithm = "precise"
 	parent.add_child(precise_camera)
@@ -88,7 +88,7 @@ func test_algorithm_comparison() -> void:
 ## Test hybrid algorithm
 func test_hybrid_algorithm() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://js27qgfeh3j6v")
+	camera.script = preload("res://addons/pixel_perfect_camera/camera_follower_stable.gd")
 	camera.pixel_perfect = true
 	camera.algorithm = "hybrid"
 	add_child(camera)

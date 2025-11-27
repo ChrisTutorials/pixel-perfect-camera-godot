@@ -2,7 +2,7 @@
 ## Tests the robust PixelPerfectCamera2D implementation for zero jitter
 extends GdUnitTestSuite
 
-const PixelPerfectCam = preload("uid://cqzlmu7a5z2ht")
+const PixelPerfectCam = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 
 ## Test that camera snaps to integers (Zero Jitter requirement)
 func test_integer_snapping() -> void:
