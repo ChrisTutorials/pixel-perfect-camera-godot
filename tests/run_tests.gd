@@ -38,7 +38,7 @@ func run_test(test_name: String, test_func: Callable) -> void:
 
 func test_pixel_snapping() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	var parent = Node2D.new()
@@ -56,7 +56,7 @@ func test_pixel_snapping() -> void:
 
 func test_pixel_perfect_toggle() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	_assert_check(camera.pixel_perfect == true, "Should be enabled by default")
@@ -69,7 +69,7 @@ func test_pixel_perfect_toggle() -> void:
 
 func test_camera_configuration() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	_assert_check(camera.process_callback == Camera2D.CAMERA2D_PROCESS_IDLE, "Should use IDLE process")
@@ -78,7 +78,7 @@ func test_camera_configuration() -> void:
 
 func test_jitter_reduction() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	var parent = Node2D.new()
@@ -100,7 +100,7 @@ func test_jitter_reduction() -> void:
 
 func test_zoom_compatibility() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	var parent = Node2D.new()
@@ -122,9 +122,9 @@ func test_zoom_compatibility() -> void:
 
 func test_diagnostics_overlay() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	
-	var diagnostics = preload("uid://ndpu6ldcizpiy").new()
+	var diagnostics = preload("res://addons/pixel_perfect_camera/camera_diagnostics.gd").new()
 	diagnostics.camera = camera
 	
 	_assert_check(diagnostics.camera == camera, "Camera not assigned to diagnostics")
@@ -137,7 +137,7 @@ func test_diagnostics_overlay() -> void:
 
 func test_value_comparison() -> void:
 	var pixel_camera = Camera2D.new()
-	pixel_camera.script = preload("uid://dt2el6566qhep")
+	pixel_camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	pixel_camera.pixel_perfect = true
 	
 	var default_camera = Camera2D.new()
@@ -168,7 +168,7 @@ func test_value_comparison() -> void:
 
 func test_zero_position() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	var parent = Node2D.new()
@@ -181,7 +181,7 @@ func test_zero_position() -> void:
 
 func test_negative_positions() -> void:
 	var camera = Camera2D.new()
-	camera.script = preload("uid://dt2el6566qhep")
+	camera.script = preload("res://addons/pixel_perfect_camera/pixel_perfect_camera_2d.gd")
 	camera.pixel_perfect = true
 	
 	var parent = Node2D.new()
